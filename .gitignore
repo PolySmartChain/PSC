@@ -1,0 +1,53 @@
+.gradle
+.idea
+build
+bin
+
+# user config
+local
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+# eclipse settings
+.classpath
+.project
+.settings
+.vscode
+
+*.sum
+/wasmer/go
+
+# rocksdb and leveldb
+/database*
+*.log
+
+# rust builds
+target
+# visual studio
+.vs
+# node modules
+node_modules
+# idea compile out
+out
+
+*.ipr
+
+tmp
+logs
+.DS_Store
+*.lock
+/polysmartchain/src/main/resources
+pos.sol
+/polysmartchain/tools
+test.http
+

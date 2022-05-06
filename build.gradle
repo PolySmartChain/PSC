@@ -1,0 +1,45 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.5.0"
+}
+
+
+
+repositories {
+    mavenCentral()
+}
+
+apply from: 'config/config.gradle'
+
+
+allprojects {
+    group 'org.tdf'
+    version '2.2.1-beta'
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+
+
+    apply plugin: 'java'
+    apply plugin: "org.jetbrains.kotlin.jvm"
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+        implementation fileTree("../libs")
+
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}

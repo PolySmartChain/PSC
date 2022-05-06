@@ -1,0 +1,59 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-properties"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}"
+    implementation "commons-io:commons-io:${commonIOVersion}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "junit:junit"
+
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation project(':common')
+    implementation project(':facade')
+    implementation project(':evm')
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "io.grpc:grpc-protobuf:${gRPCVersion}"
+    compileOnly "io.grpc:grpc-stub:${gRPCVersion}"
+    compileOnly "io.grpc:grpc-netty-shaded:${gRPCVersion}"
+
+    implementation "org.iq80.leveldb:leveldb:${leveldbVersion}"
+    implementation "org.java-websocket:Java-WebSocket:${webSocketVersion}"
+    implementation "com.madgag.spongycastle:core:${scastleVersion}" // for SHA3 and SECP256K1
+    implementation "com.madgag.spongycastle:prov:${scastleVersion}" // for SHA3 and SECP256K1
+    implementation "org.iq80.leveldb:leveldb-api:${leveldbVersion}"
+
+    implementation "org.ethereum:leveldbjni-all:${leveldbJNIVersion}"
+    implementation "com.github.briandilley.jsonrpc4j:jsonrpc4j:1.6"
+//    implementation "com.google.protobuf:protobuf-java:2.5.0"
+    implementation "com.aliyun.openservices:aliyun-log-logback-appender:0.1.18"
+
+    runtimeOnly 'javax.jws:jsr181-api:1.0-MR1'
+    implementation "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+
+    testApi "org.web3j:core:4.8.4"
+    testImplementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    testImplementation 'org.web3j:core:4.8.5'
+
+}
+
+task copyDependencies(type: Copy) {
+    from configurations.runtime
+    destinationDir = file('build/libs/lib')
+}
+
+bootRun {
+    standardInput = System.in
+}
+
+test {
+    useJUnitPlatform()
+}

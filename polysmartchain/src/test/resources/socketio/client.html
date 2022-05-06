@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>Socketio chat</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/socket.io/2.3.0/socket.io.js" type="text/javascript"></script>
+    <style>
+
+        body {
+            padding: 20px;
+        }
+
+        #console {
+            height: 400px;
+            overflow: auto;
+        }
+
+        .username-msg {
+            color: orange;
+        }
+
+        .connect-msg {
+            color: green;
+        }
+
+        .disconnect-msg {
+            color: red;
+        }
+
+        .send-msg {
+            color: #888
+        }
+    </style>
+</head>
+<body>
+<h1>Netty-socketio chat demo</h1>
+<br/>
+<div class="well" id="console"></div>
+
+<input class="input-xlarge" id="host" placeholder="localhost" type="text"/>
+<input class="input-xlarge" id="port" placeholder="8081" type="text"/>
+<button id="connect">connect</button>
+
+<form class="well form-inline" onsubmit="return false;">
+    <input class="input-xlarge" id="name" placeholder="user name. . . " type="text"/>
+    <input class="input-xlarge" id="msg" placeholder="send content. . . " type="text"/>
+    <button class="btn" onClick="sendMessage()" type="button">Send</button>
+    <button class="btn" onClick="sendDisconnect()" type="button">Disconnect</button>
+</form>
+<!--    java server side code -->
+<!--    @Scheduled(fixedRate = 5000)-->
+<!--    private void schedule(){-->
+<!--    log.info("send message...");-->
+<!--    Map<String, String> obj = new HashMap<>();-->
+<!--    obj.put("userName", "from");-->
+<!--    obj.put("message", "hello world");-->
+<!--    socketIOServer.getBroadcastOperations()-->
+<!--    .sendEvent("chatevent", obj);-->
+<!--    }-->
+</body>
+<script type="text/javascript">
+    function getUrl() {
+        return 'http://' +
+            ($('#host').val() || 'localhost') +
+            ':' +
+            ($('#port').val() || '8081')
+    }
+
+    $('#connect').on('click', (e) => connectSocket(getUrl()));
+
+    function connectSocket(url) {
+        let socket = window.socket
+        if (socket != null) {
+            socket.disconnect();
+        }
+        window.socket = io.connect(url);
+        $('#console').html('');
+        socket = window.socket;
+        console.log('connect to url ' + url)
+        socket.on('connect', function () {
+            output('<span class="connect-msg">Client has connected to the server!</span>');
+        });
+
+        socket.on('chatevent', function (data) {
+            output('<span class="username-msg">' + data.userName + ' : </span>'
+                + data.message);
+        });
+
+        socket.on('disconnect', function () {
+            output('<span class="disconnect-msg">The client has disconnected! </span>');
+        });
+
+        function sendDisconnect() {
+            socket.disconnect();
+        }
+
+        function sendMessage() {
+            var userName = $("#name").val()
+            var message = $('#msg').val();
+            $('#msg').val('');
+            socket.emit('chatevent', {
+                userName: userName,
+                message: message
+            });
+        }
+
+        function output(message) {
+            var currentTime = "<span class='time' >" + new Date() + "</span>";
+            var element = $("<div>" + currentTime + " " + message + "</div>");
+            $('#console').prepend(element);
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,6 @@
+rootProject.name = 'polysmartchain'
+include 'common'
+include 'polysmartchain'
+include 'facade'
+include 'evm'
+include 'p2pv2'

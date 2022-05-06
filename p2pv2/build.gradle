@@ -1,0 +1,17 @@
+dependencies {
+    implementation "commons-io:commons-io:${commonIOVersion}"
+
+
+    implementation project(':common')
+    implementation project(':facade')
+
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "org.java-websocket:Java-WebSocket:${webSocketVersion}"
+    runtimeOnly 'javax.jws:jsr181-api:1.0-MR1'
+}
+
+
+
+test {
+    useJUnitPlatform()
+}

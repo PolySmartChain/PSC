@@ -1,0 +1,56 @@
+syntax = "proto3";
+option java_package = "org.tdf.sunflower.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+service Entry{
+    rpc Entry (stream Message) returns (stream Message) {
+    }
+}
+
+enum Code {
+    NOTHING = 0; // empty message
+    PING = 1; // ping message, open a channel
+    PONG = 2; // pong message, response to a channel opened event
+    LOOK_UP = 3; // query for peers
+    PEERS = 4; // response to peers query
+    ANOTHER = 5; // used for application handlers
+    DISCONNECT = 6; // disconnect message, prompt peers to delete yourself in cache
+    MULTI_PART = 7; // multi part
+}
+
+message Message {
+    // protocol header
+    Code code = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string remote_peer = 3;
+    uint64 ttl = 4; // avoid flood attack
+    uint64 nonce = 5; // avoid collision
+    bytes signature = 6;
+
+    // protocol body
+    bytes body = 7;
+}
+
+message Ping {
+}
+
+message Pong {
+}
+
+message Lookup {
+
+}
+
+message Peers {
+    repeated string peers = 1;
+}
+
+
+message Nothing {
+}
+
+message Disconnect{
+    string reason = 1;
+}

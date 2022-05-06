@@ -1,0 +1,75 @@
+# use SPRING_CONFIG_LOCATION environment to locate your custom spring config
+# for example: SPRING_CONFIG_LOCATION=classpath:\application.yml,some-path\custom-config.yml
+spring:
+  datasource:
+    url: 'jdbc:h2:mem:testdb' # SPRING_DATASOURCE_URL
+    username: 'username'
+    password: 'password'
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # create, update
+    show-sql: false # enable jpa sql logs
+
+
+
+sunflower:
+  consensus:
+    name: 'none'
+    genesis: 'genesis/poa.jsonc'
+    block-interval: '30'
+    enable-mining: 'true'
+    miner-coin-base: '1JWhUiZCWps56uZckAvzxy2ex6VGhrMXdD'
+
+  p2p:
+    name: 'none' # choose p2p protocol, gRPC is default optional: websocket
+    # name: 'websocket'
+    max-peers: '16' # maximum peers
+    address: 'node://localhost:9999'
+    enable-discovery: 'true'
+    bootstraps: # bootstraps nodes
+      - 'node://localhost:9998'
+    trusted: # trusted nodes
+      - 'node://localhost:9999'
+
+  message-queue:
+    name: 'none'
+    port: '8081'
+
+  # command line interface
+  console:
+    token-file: 'sunflower.ipr' # location to write token file, json format {token: '', port: 8888}
+    port: '8082'
+    disabled: true
+
+  contracts:
+    rpc-auth:
+      address: ''
+      binary: ''
+      data: ''
+
+
+
+  database:
+    # Key value data source values: [rocksdb/leveldb]
+    name: 'memory'
+    directory: 'database/rocksdb'
+    max-open-files: '512' # defines a number of opened files by db instance
+
+  # Cryptographic algorithms, including symmetric encryption, asymmetric encryption and hashing
+  crypto:
+    hash: 'sm3' # keccak256, keccak512
+    ec: 'sm2' # ed25519
+    ae: 'sm4' # Symmetric encryption method
+
+server:
+  port: '8080'
+
+logging:
+  level:
+    org.hibernate:
+      SQL: 'DEBUG'
+      type.descriptor.sql.BasicBinder: 'TRACE'
+    org.springframework.jdbc.core:
+      JdbcTemplate: 'DEBUG'
+      StatementCreatorUtils: 'TRACE'

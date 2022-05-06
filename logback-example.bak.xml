@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <!-- Be sure to flush latest logs on exit -->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{8} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="sls" class="com.aliyun.openservices.log.logback.LoghubAppender">
+        <endpoint></endpoint>
+        <accessKeyId></accessKeyId>
+        <accessKeySecret></accessKeySecret>
+
+        <project>polysmartchain</project>
+        <logStore>psc</logStore>
+
+        <topic>psc0</topic>
+        <source>psc0</source>
+
+        <totalSizeInBytes>104857600</totalSizeInBytes>
+        <maxBlockMs>0</maxBlockMs>
+        <ioThreadCount>8</ioThreadCount>
+        <batchSizeThresholdInBytes>524288</batchSizeThresholdInBytes>
+        <batchCountThreshold>4096</batchCountThreshold>
+        <lingerMs>2000</lingerMs>
+        <retries>10</retries>
+        <baseRetryBackoffMs>100</baseRetryBackoffMs>
+        <maxRetryBackoffMs>50000</maxRetryBackoffMs>
+
+        <encoder>
+            <pattern>%d %-5level [%thread] %logger{0}: %msg</pattern>
+        </encoder>
+
+        <timeFormat>yyyy-MM-dd'T'HH:mmZ</timeFormat>
+        <timeZone>Asia/Shanghai</timeZone>
+
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>INFO</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+
+<!--        <mdcFields>THREAD_ID,MDC_KEY</mdcFields>-->
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+<!--        <appender-ref ref="sls"/>-->
+    </root>
+</configuration>
