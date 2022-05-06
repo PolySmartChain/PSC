@@ -1,4 +1,4 @@
-`# Poly Smart Chain developer guide
+# Poly Smart Chain developer guide
 
 1. git subtree usage
 
